@@ -1,158 +1,174 @@
-const Input=document.querySelector(".Input");
-const todoButton = document.querySelector(".todo-button");
-const todolist=document.querySelector(".todolist");
-const filter=document.querySelector(".filter");
+let Input=document.querySelector(".In");
+let addbutton=document.querySelector(".add");
+let maintodo=document.querySelector(".maintodo");
+let Filter=document.querySelector(".filter");
 
-//eventlistners
-document.addEventListener("DOMContentLoaded",getodo);
-todoButton.addEventListener("click", addTodo);
-todolist.addEventListener("click",delcheck);
-filter.addEventListener("click",Filter);
+addbutton.addEventListener("click",Add);
+Filter.addEventListener("click",filterlist);
+document.addEventListener("DOMContentLoaded",restoree);
 
-function addTodo(event){
-    event.preventDefault();
-    
-    const todoDiv=document.createElement("div");
-    todoDiv.classList.add("tododiv");
+function Add(event){
+  event.preventDefault();
+  const tododiv=document.createElement("div");
+  tododiv.classList.add("tododiv");
 
-    const newtodo=document.createElement("li");
-    newtodo.innerText=Input.value;
-    newtodo.classList.add("todoitem");
+  const list=document.createElement("li");
+  tododiv.classList.add("todoli");
+  list.innerText=Input.value;
+  
+  const done = document.createElement("button");
+  done.innerHTML = '<i class="fas fa-check"></i>';
+  done.classList.add("donebutton");
+  done.addEventListener("click",donelist);
+  
+  const trash=document.createElement("button");
+  trash.classList.add("trashbutton");
+  trash.innerHTML='<i class="fas fa-trash"></i>';
+  trash.addEventListener("click",deleted);
 
-    //append
-    todoDiv.appendChild(newtodo);
+  const edit=document.createElement("button");
+    edit.classList.add("edited")
+    edit.innerHTML='<i class="fas fa-edit"></i>';
+    edit.addEventListener("click",edited);
+  
+  tododiv.appendChild(list);
+  tododiv.appendChild(done);
+  tododiv.appendChild(trash);
+  tododiv.appendChild(edit);
 
-    const compl=document.createElement("button");
-    compl.classList.add("compl");
-    compl.innerHTML='<i class="fas fa-check"></i>';
-    todoDiv.appendChild(compl);
-
-    const delbutton=document.createElement("button");
-    delbutton.innerHTML='<i class="fas fa-trash"></i>';
-    delbutton.classList.add("delbtn");
-    todoDiv.appendChild(delbutton);
-   
-
-    todolist.appendChild(todoDiv);
-
-
-    //localstorage
-
-    savetolocal(Input.value);
-
-    //clear input val
-    Input.value="";
+  maintodo.appendChild(tododiv);
+  localstorage(Input.value);
+  Input.value="";
 }
 
-function delcheck(e){
-    let item=e.target;
-    //delete
-    if(item.classList[0]==="delbtn"){
-        const del=item.parentElement;
-        removelocal(del);
-        del.remove();
-    }
-
-    //checkamrk
-    
-    if(item.classList[0]==="compl"){
-        const check=item.parentElement;
-        check.classList.toggle('completed');
-    }
-
-   
+function donelist(e){
+  let item=e.target;
+  var val=item.parentElement;
+  if(item.classList[0]==='donebutton'){
+ 
+  val.classList.add("red");
+}
+}
+function deleted(e){
+  let item=e.target;
+  var val=item.parentElement;
+ if(item.classList[0]==='trashbutton'){
+  
+  dellocal(val);
+  val.remove();
+}
 }
 
-function Filter(e){
+function edited(e){
+  let item=e.target;
+  const i=item.parentElement;
+    let change=i.children[0].innerText;
+    Input.value=change;
+    dellocal(i);
+    i.remove();
+}
+
+function filterlist(e){
+  let a=maintodo.childNodes;
+  
+  a.forEach((ch)=>{
     
-    const todo=todolist.childNodes;
-    todo.forEach(function(dos){
-        switch(e.target.value){
-            case "all":
-                dos.style.display='flex';
-                break;
-            case "completed":
-                if(dos.classList.contains("completed")){
-                    dos.style.display="flex";
-                }
-                else{
-                    dos.style.display="none";
-                }
-                break;
-             case "pending":
-           
-                if(!dos.classList.contains("completed")){
-                    dos.style.display="flex";
-                }
-                else{
-                    dos.style.display="none";
-                }
-                break;
+   switch(e.target.value){
+    
+    
+    case "all":
+     
+      ch.style.display="flex";
+      break;
+      
+    case "compl":
+      
+      if(ch.classList.contains("red")){
+        
+        ch.style.display="flex";
+      }
+      else{
+      ch.style.display="none";
+}
+      break;
+      
+      
+    case "pending":
+      if(!ch.classList.contains("red")){
+        ch.style.display="flex";
+       }
+      else{
+       ch.style.display="none";
         }
-    })
+      break;
+      
+     
+  }
+})
 
-    }
+}
 
-    function savetolocal(todo){
-        let todoset;
-        if(localStorage.getItem("todoset")===null){
-            todoset=[];
-        }
-        else{
-            todoset=JSON.parse(localStorage.getItem("todoset"));
+function localstorage(e){
+  let todo;
+  if(localStorage.getItem("todo")===null){
+      todo=[];
+  }
+  else{
+    todo=JSON.parse(localStorage.getItem("todo"));
+  }
+  todo.push(e);
+  localStorage.setItem("todo",JSON.stringify(todo));
+}
 
-        }
-        todoset.push(todo);
-       localStorage.setItem("todoset",JSON.stringify(todoset))
-    }
+function restoree(){
+  let todo;
+  if(localStorage.getItem("todo")===null){
+      todo=[];
+  }
+  else{
+    todo=JSON.parse(localStorage.getItem("todo"));
+  todo.forEach(function(inside){
+  const tododiv=document.createElement("div");
+  tododiv.classList.add("tododiv");
 
-    function getodo(){
-        let todoset;
-        if(localStorage.getItem("todoset")===null){
-            todoset=[];
-        }
-        else{
-            todoset=JSON.parse(localStorage.getItem("todoset"));
+  const list=document.createElement("li");
+  tododiv.classList.add("todoli");
+  list.innerText=inside;
+  
+  const done = document.createElement("button");
+  done.innerHTML = '<i class="fas fa-check"></i>';
+  done.classList.add("donebutton");
+  done.addEventListener("click",donelist);
+  
+  const trash=document.createElement("button");
+  trash.classList.add("trashbutton");
+  trash.innerHTML='<i class="fas fa-trash"></i>';
+  trash.addEventListener("click",deleted);
 
-        }
+  const edit=document.createElement("button");
+    edit.classList.add("edited")
+    edit.innerHTML='<i class="fas fa-edit"></i>';
+    edit.addEventListener("click",edited);
+  
+  tododiv.appendChild(list);
+  tododiv.appendChild(done);
+  tododiv.appendChild(trash);
+  tododiv.appendChild(edit);
 
-        todoset.forEach(function(todo)
-        {
-            const todoDiv=document.createElement("div");
-    todoDiv.classList.add("tododiv");
+  maintodo.appendChild(tododiv);})
+  }
+}
 
-    const newtodo=document.createElement("li");
-    newtodo.innerText=todo;
-    newtodo.classList.add("todoitem");
+function dellocal(val){
+  if(localStorage.getItem("todo")===null){
+    todo=[];
+}
+else{
+  todo=JSON.parse(localStorage.getItem("todo"));
+}
 
-    //append
-    todoDiv.appendChild(newtodo);
+const del=val.children[0].innerText;
+todo.splice(todo.indexOf(del),1);
+localStorage.setItem("todo",JSON.stringify(todo));
+}
 
-    const compl=document.createElement("button");
-    compl.classList.add("compl");
-    compl.innerHTML='<i class="fas fa-check"></i>';
-    todoDiv.appendChild(compl);
-
-    const delbutton=document.createElement("button");
-    delbutton.innerHTML='<i class="fas fa-trash"></i>';
-    delbutton.classList.add("delbtn");
-    todoDiv.appendChild(delbutton);
-   
-
-    todolist.appendChild(todoDiv);})
-    }
-
-    function removelocal(todo){
-        let todoset;
-        if(localStorage.getItem("todoset")===null){
-            todoset=[];
-        }
-        else{
-            todoset=JSON.parse(localStorage.getItem("todoset"));
-
-        }
-
-        const name=(todo.children[0].innerText);
-        todoset.splice(todoset.indexOf(name),1);
-        localStorage.setItem("todoset",JSON.stringify(todoset))
-    }
