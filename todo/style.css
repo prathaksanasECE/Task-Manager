@@ -1,80 +1,79 @@
 body{
-    
+    background-image:linear-gradient(110deg,rgb(141, 252, 141),rgb(148, 236, 207),rgb(157, 157, 248)) ;
     text-align: center;
-    background-image: linear-gradient(110deg,rgb(249, 249, 126),rgb(244, 201, 123),rgb(247, 176, 132));
+   
+}
+header{
+    margin: 30px;
+    padding:10px;
+    font-size: 35px;
+    font-weight: 900;
 }
 input{
- background-color: white;
- border: none;
-}
-h1{
-    padding:10px;
-
-}
-
-
-form input,form button{
-    padding:0.5rem;
-    font-size: medium;
-    margin: 0px;   
-
-}
-.Input{
-    padding:8px 25px;
+    background-color: white;
+    padding:7px 50px;
+    border-radius: 8px;
+    color: black;
 }
 button{
-    padding:0.5rem;
-    color: rgb(155, 40, 40);
-   border-color:white;
-    background-color:white;
-    margin: 2px;
+    margin: 10px;
+    padding:7px 8px;
+    background-color: lightgreen;
+    color: brown;
+    font-weight: 900;
+    border-radius: 8px;
+    border: 2px solid rgb(84, 207, 84);
+    
 }
-.todo-button{
-    background-color: rgb(175, 255, 181);
+select{
+    padding: 7px;
+    background-color: rgb(169, 240, 216);
+    
 }
-.todocontainer{
+.topdiv{
     display: flex;
     align-items: center;
     justify-content: center;
+   
+  
 }
-.tododiv{
-    display: flex;
+ul{
     list-style: none;
-    min-width: 30%;
-    background: white;
-}
-.todoitem{
     
-    font-size: 20px;;
+    
+    min-width: 30%;
+    
+    
+}
+li{
+    font-size: 20px;
     flex: 1;
     justify-content: space-between;
     margin:0.8rem;
-    
 }
-.compl,.delbutton{
-    cursor: pointer;
+.tododiv{
+margin-bottom: 8px;
+    display: flex;
+    background: white;
+    border-radius: 8px;
+text-align: start;
 }
-.compl{
-    background-attachment: green;
+.donebutton,.trashbutton,.edited{
+    margin: 0px;
+    padding:12px;
+    border-radius: 0px;
+    border: 0px;
 }
-.delbutton{
-    background-color: rgb(231, 118, 118);
+.donebutton{
+    background-color: lightgreen;
 }
-.fa-trash,.fa-check{
-    pointer-events: none;
-    border: none;
-    outline:none;
-    box-shadow: none;
+.trashbutton{
+    background-color: rgb(225, 149, 87);
 }
-.completed{
+.edited{
+    background-color: rgb(172, 172, 237);
+}
+.red{
     text-decoration: line-through;
-    background-color: rgb(249, 182, 182);
-    opacity: 0.5;
-}
-select{
-    padding:0.5rem;
-    color: rgb(213, 30, 30);
-   border-color:white;
-    background-color: white;
-    margin: 2px;
+    background-color: lightgreen;
 }
